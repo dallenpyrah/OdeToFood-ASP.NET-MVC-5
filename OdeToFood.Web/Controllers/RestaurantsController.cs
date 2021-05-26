@@ -51,7 +51,7 @@ namespace OdeToFood.Web.Controllers
         public ActionResult Create(Restaurant restaurant)
         {
             db.Add(restaurant);
-            return View("Index");
+            return RedirectToAction("Details", new { id = restaurant.Id });
         }
 
         [HttpGet]
@@ -75,6 +75,25 @@ namespace OdeToFood.Web.Controllers
                 return RedirectToAction("Details", new { id = restaurant.Id });
             }
             return View(restaurant);
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var model = db.GetRestaurantById(id);
+            if(model == null)
+            {
+                return View("NotFound");
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, FormCollection form)
+        {
+            db.DeleteRestaurant(id);
+            return RedirectToAction("Index");
         }
     }
 }
