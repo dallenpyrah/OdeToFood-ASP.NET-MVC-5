@@ -20,6 +20,21 @@ namespace OdeToFood.Data.Services
             };
         }
 
+        public void Add(Restaurant restaurant)
+        {
+            restaurants.Add(restaurant);
+        }
+
+        public void EditRestaurant(Restaurant restaurant)
+        {
+            var current = GetRestaurantById(restaurant.Id);
+            if (current != null)
+            {
+                current.Name = restaurant.Name;
+                current.Cuisine = restaurant.Cuisine;
+            }
+        }
+
         public IEnumerable<Restaurant> GetAll()
         {
             return restaurants;
